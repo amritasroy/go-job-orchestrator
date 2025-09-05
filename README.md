@@ -179,9 +179,7 @@ All artifact endpoints require `Authorization: Bearer <token>`.
 
 ## 🌐 Demo Link
 
-👉 Live demo: **https://drive.google.com/file/d/1Camf9ytAiSZFLYeBOMEozLkXAnLinYvi/view?usp=drive_link**\
-_(replace this with your tunnel URL, VPS endpoint, or Kubernetes Ingress
-host)_
+👉 Live demo: **https://drive.google.com/file/d/1Camf9ytAiSZFLYeBOMEozLkXAnLinYvi/view?usp=drive_link**
 
 ---
 
