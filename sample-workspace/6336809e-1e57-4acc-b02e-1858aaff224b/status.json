@@ -1,0 +1,15 @@
+{
+  "completionTime": "2025-09-05T15:17:01Z",
+  "conditions": [
+    {
+      "type": "Complete",
+      "status": "True",
+      "lastProbeTime": "2025-09-05T15:17:01Z",
+      "lastTransitionTime": "2025-09-05T15:17:01Z"
+    }
+  ],
+  "failed": false,
+  "jobName": "run-406995a3",
+  "startTime": "2025-09-05T15:16:29Z",
+  "succeeded": true
+}

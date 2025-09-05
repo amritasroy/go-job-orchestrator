@@ -1,0 +1,118 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: job-engine
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: orchestrator-data
+  namespace: job-engine
+spec:
+  accessModes: [ReadWriteOnce]
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: orchestrator-sa
+  namespace: job-engine
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: orchestrator-role
+  namespace: job-engine
+rules:
+  - apiGroups: ["batch"]
+    resources: ["jobs", "jobs/status"]
+    verbs: ["create", "get", "list", "watch", "delete"]
+  - apiGroups: [""]
+    resources: ["pods", "pods/log"]
+    verbs: ["get", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: orchestrator-rb
+  namespace: job-engine
+subjects:
+  - kind: ServiceAccount
+    name: orchestrator-sa
+    namespace: job-engine
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: orchestrator-role
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: job-orchestrator
+  namespace: job-engine
+  labels:
+    app: job-orchestrator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: job-orchestrator
+  template:
+    metadata:
+      labels:
+        app: job-orchestrator
+    spec:
+      serviceAccountName: orchestrator-sa
+
+      initContainers:
+        - name: fix-perms
+          image: busybox:1.36
+          command: ["sh", "-lc", "mkdir -p /data && chmod 0777 /data"]
+          volumeMounts:
+            - name: data
+              mountPath: /data
+
+      securityContext:
+        fsGroup: 10001
+
+      containers:
+        - name: api
+          image: job-orchestrator:local
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          env:
+            - name: NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: ORCH_BASE_URL
+              value: http://job-orchestrator:8080
+            - name: STORAGE_DIR
+              value: /data
+            - name: DATA_HOST_PATH
+              value: /mnt/c/rd-share/job-engine-data # or /mnt/c/rd-share/job-engine-data if that's your RD path
+          volumeMounts:
+            - name: data
+              mountPath: /data
+
+      volumes:
+        - name: data
+          hostPath:
+            path: /mnt/c/rd-share/job-engine-data # maps to C:\rd-share\job-engine-data
+            type: DirectoryOrCreate
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: job-orchestrator
+  namespace: job-engine
+spec:
+  selector:
+    app: job-orchestrator
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080
