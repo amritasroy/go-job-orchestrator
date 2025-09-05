@@ -6,6 +6,11 @@ It lets you upload files, create jobs dynamically, fetch logs, and
 download results --- all with a simple REST API.
 
 ---
+## 🌐 Demo Link
+
+👉 Live demo: **https://drive.google.com/file/d/1Camf9ytAiSZFLYeBOMEozLkXAnLinYvi/view?usp=drive_link**
+
+---
 
 ## 🚀 Features
 
@@ -174,12 +179,6 @@ Response:
 - `GET  /outputs/:id/:filename` -- download saved outputs
 
 All artifact endpoints require `Authorization: Bearer <token>`.
-
----
-
-## 🌐 Demo Link
-
-👉 Live demo: **https://drive.google.com/file/d/1Camf9ytAiSZFLYeBOMEozLkXAnLinYvi/view?usp=drive_link**
 
 ---
 
