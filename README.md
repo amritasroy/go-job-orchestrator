@@ -174,8 +174,8 @@ Response:
 ### Artifacts & Outputs
 
 - `GET  /artifacts/:id/:filename` -- initContainers fetch uploaded
-  files\
-- `PUT  /artifacts/:id/upload/:filename` -- upload results from pod\
+  files
+- `PUT  /artifacts/:id/upload/:filename` -- upload results from pod
 - `GET  /outputs/:id/:filename` -- download saved outputs
 
 All artifact endpoints require `Authorization: Bearer <token>`.
