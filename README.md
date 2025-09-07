@@ -190,15 +190,6 @@ All artifact endpoints require `Authorization: Bearer <token>`.
 
 ---
 
-## 🛠️ Development
-
-```bash
-go fmt ./...
-go vet ./...
-go test ./...
-```
-
----
 
 ## 📜 License
 
