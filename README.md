@@ -189,6 +189,11 @@ All artifact endpoints require `Authorization: Bearer <token>`.
 - Always deploy behind HTTPS if reachable outside cluster
 
 ---
+## ✍️ Author
+
+- Amrita Sinha Roy
+
+If you use this work, please cite the project/report accordingly.
 
 
 ## 📜 License
